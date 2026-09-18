@@ -10,9 +10,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log(data);
 
   // Get the poster records
-  const posters = data.response.rows;
+   const posters = data.response.rows;
 
   console.log("Number of posters:", posters.length);
-  console.log("First poster:", posters[0]);
+
+  // Create a simpler poster dataset
+  const posterData = [];
+
+  for (let i = 0; i < posters.length; i = i + 1) {
+
+    posterData.push({
+      id: posters[i].id,
+      name: posters[i].content.freetext.name,
+      date: posters[i].content.freetext.date,
+      place: posters[i].content.freetext.place,
+      topic: posters[i].content.freetext.topic,
+      notes: posters[i].content.freetext.notes
+    });
+
+  }
+
+  console.log("Poster dataset:", posterData);
 
 });
