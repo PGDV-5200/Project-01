@@ -1,0 +1,641 @@
+/* =====================================================
+   BASIC PAGE
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    background: #f4efe2;
+
+    color: #17243a;
+
+    font-family: Arial, sans-serif;
+
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+#container {
+
+    width: 100%;
+
+    padding: 45px 50px 60px;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+h1 {
+
+    margin: 0;
+
+    text-align: center;
+
+    font-family: Georgia, serif;
+
+    font-size: 48px;
+
+    color: #17243a;
+
+    letter-spacing: 1px;
+
+}
+
+
+.subtitle {
+
+    text-align: center;
+
+    margin: 10px 0 25px;
+
+    color: #b52b32;
+
+    font-family: Georgia, serif;
+
+    font-size: 18px;
+
+}
+
+
+.intro {
+
+    max-width: 850px;
+
+    margin: 0 auto 40px;
+
+    text-align: center;
+
+    line-height: 1.6;
+
+    font-size: 15px;
+
+    color: #39445a;
+
+}
+
+
+/* =====================================================
+   VISUALIZATION
+===================================================== */
+
+#visualization {
+
+    width: 100%;
+
+}
+
+
+/* =====================================================
+   EACH CATEGORY ROW
+===================================================== */
+
+.topic-row {
+
+    width: 100%;
+
+    margin-bottom: 38px;
+
+}
+
+
+/* =====================================================
+   CATEGORY TITLE
+===================================================== */
+
+.topic-header {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+
+    border-bottom: 2px solid #b52b32;
+
+    padding-bottom: 7px;
+
+}
+
+
+.topic-name {
+
+    font-family: Georgia, serif;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    color: #17243a;
+
+}
+
+
+.topic-count {
+
+    font-size: 14px;
+
+    color: #b52b32;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   HORIZONTAL SCROLLING
+===================================================== */
+
+.poster-scroll {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    padding: 8px 5px 18px;
+
+}
+
+
+/* scrollbar */
+
+.poster-scroll::-webkit-scrollbar {
+
+    height: 10px;
+
+}
+
+
+.poster-scroll::-webkit-scrollbar-track {
+
+    background: #ddd6c7;
+
+    border-radius: 10px;
+
+}
+
+
+.poster-scroll::-webkit-scrollbar-thumb {
+
+    background: #17243a;
+
+    border-radius: 10px;
+
+}
+
+
+.poster-scroll::-webkit-scrollbar-thumb:hover {
+
+    background: #b52b32;
+
+}
+
+
+/* =====================================================
+   POSTER ROW
+===================================================== */
+
+.poster-row {
+
+    display: flex;
+
+    gap: 16px;
+
+    width: max-content;
+
+}
+
+
+/* =====================================================
+   POSTER CARD
+===================================================== */
+
+.poster-card {
+
+    width: 150px;
+
+    min-width: 150px;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.poster-image-wrapper {
+
+    width: 150px;
+
+    height: 210px;
+
+    background: #ddd6c7;
+
+    border: 3px solid #17243a;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.poster-card img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   HOVER EFFECT
+===================================================== */
+
+.poster-card:hover .poster-image-wrapper {
+
+    transform: translateY(-5px);
+
+    border-color: #b52b32;
+
+    box-shadow: 5px 5px 0 #17243a;
+
+}
+
+
+.poster-number {
+
+    margin-top: 7px;
+
+    font-size: 12px;
+
+    color: #39445a;
+
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.legend {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 30px;
+
+    margin-top: 35px;
+
+    padding: 18px;
+
+    border-top: 2px solid #17243a;
+
+    border-bottom: 2px solid #17243a;
+
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 14px;
+
+}
+
+
+.legend-square {
+
+    width: 14px;
+
+    height: 14px;
+
+    background: #b52b32;
+
+}
+
+
+/* =====================================================
+   NOTE
+===================================================== */
+
+.note {
+
+    max-width: 850px;
+
+    margin: 25px auto 0;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #5c6473;
+
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+.poster-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(23, 36, 58, 0.85);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 1000;
+
+    padding: 30px;
+
+}
+
+
+.poster-modal.show {
+
+    display: flex;
+
+}
+
+
+/* =====================================================
+   POPUP CARD
+===================================================== */
+
+.poster-modal-card {
+
+    position: relative;
+
+    width: min(900px, 95vw);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #f4efe2;
+
+    border: 6px solid #17243a;
+
+    box-shadow: 12px 12px 0 #b52b32;
+
+    padding: 30px;
+
+    display: flex;
+
+    gap: 35px;
+
+}
+
+
+/* =====================================================
+   POPUP IMAGE
+===================================================== */
+
+.poster-modal-image {
+
+    width: 330px;
+
+    max-height: 70vh;
+
+    object-fit: contain;
+
+    background: #ddd6c7;
+
+    border: 3px solid #17243a;
+
+}
+
+
+/* =====================================================
+   POPUP INFORMATION
+===================================================== */
+
+.poster-modal-info {
+
+    flex: 1;
+
+}
+
+
+.poster-modal-category {
+
+    color: #b52b32;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.poster-modal-title {
+
+    font-family: Georgia, serif;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    margin: 0 0 20px;
+
+    color: #17243a;
+
+}
+
+
+.poster-modal-label {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #b52b32;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-top: 20px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.poster-modal-text {
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+    color: #39445a;
+
+}
+
+
+/* =====================================================
+   KEYWORDS
+===================================================== */
+
+.keyword-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+}
+
+
+.keyword {
+
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border: 1px solid #17243a;
+
+    color: #17243a;
+
+    font-size: 12px;
+
+    background: #fffaf0;
+
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.poster-modal-close {
+
+    position: absolute;
+
+    top: 12px;
+
+    right: 15px;
+
+    border: none;
+
+    background: #b52b32;
+
+    color: white;
+
+    width: 35px;
+
+    height: 35px;
+
+    font-size: 23px;
+
+    line-height: 30px;
+
+    cursor: pointer;
+
+}
+
+
+.poster-modal-close:hover {
+
+    background: #17243a;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    #container {
+
+        padding: 30px 20px;
+
+    }
+
+
+    h1 {
+
+        font-size: 34px;
+
+    }
+
+
+    .poster-modal-card {
+
+        flex-direction: column;
+
+        padding: 20px;
+
+    }
+
+
+    .poster-modal-image {
+
+        width: 100%;
+
+        max-height: 50vh;
+
+    }
+
+
+    .legend {
+
+        flex-direction: column;
+
+        gap: 12px;
+
+    }
+
+}

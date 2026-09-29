@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Types of Political Posters</title>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script src="utils/keys.0.js" defer></script>
+
+    <script src="utils/utils.js" defer></script>
+
+    <script src="script.trial.2.0.js" defer></script>
+
+    <link rel="stylesheet" href="political-posters.css">
+
+</head>
+
+
+<body>
+
+    <main id="container">
+
+        <h1>Types of Political Posters</h1>
+
+        <p class="subtitle">
+            Smithsonian Institution • Political Posters Collection
+        </p>
+
+        <p class="intro">
+            Each image represents a political poster in the Smithsonian
+            collection. Posters are grouped by the topics assigned to them
+            in the Smithsonian metadata.
+        </p>
+
+        <div id="visualization"></div>
+
+        <div class="legend">
+
+            <div class="legend-item">
+
+                <div class="legend-square"></div>
+
+                <span>Political poster</span>
+
+            </div>
+
+            <div class="legend-item">
+
+                <strong id="total-number">
+                    n = ...
+                </strong>
+
+                <span>
+                    posters retrieved from the Smithsonian API
+                </span>
+
+            </div>
+
+        </div>
+
+        <p class="note">
+            A poster may appear in more than one topic row because
+            the Smithsonian metadata can assign multiple topics
+            to the same poster.
+        </p>
+
+    </main>
+
+</body>
+
+</html>
