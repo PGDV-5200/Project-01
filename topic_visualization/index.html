@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smithsonian Political Posters</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+    <!-- D3 v7 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- API key -->
+    <script src="keys.0.js" defer></script>
+
+    <!-- Main JavaScript Logic -->
+    <script src="topics.trial04.js" defer></script>
+
+    <style>
+        :root {
+            --paper:  #faf7f1;
+            --line:   #e4ddcf;
+            --navy:   #1f4e79;
+            --red:    #a83232;
+            --orange: #e8701a;
+            --ink:    #1b1b1b;
+            --muted:  #6b665c;
+
+            --fs-title: clamp(24px, calc((clamp(300px, 26vw, 420px) - 72px) / 9.6), 48px);
+            --fs-stat:  clamp(20px, 1.55vw, 24px);
+            --fs-sub:   clamp(10px, 0.75vw, 12px);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+
+        body {
+            margin: 0;
+            font-family: 'Gotham', 'Gotham SSm', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            overflow: hidden;
+        }
+
+        #page {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: clamp(300px, 26vw, 420px) minmax(0, 1fr) 150px;
+        }
+
+        #info {
+            display: flex;
+            flex-direction: column;
+            padding: 48px 32px 24px 40px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: var(--fs-title);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1px;
+            white-space: nowrap;
+        }
+
+        h1 em {
+            display: block;
+            font-style: italic;
+            font-weight: 800;
+            color: var(--red);
+            white-space: nowrap;
+        }
+
+        #subtitle {
+            margin: 0 0 14px 0;
+            font-size: var(--fs-sub);
+            line-height: 1.5;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--navy);
+            text-wrap: balance;
+        }
+
+        .description {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--muted);
+        }
+
+        .stats {
+            display: flex;
+            gap: 32px;
+            margin: 32px 0 0 0;
+            padding: 20px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .stat .num {
+            font-size: var(--fs-stat);
+            font-weight: 800;
+            line-height: 1;
+            color: var(--navy);
+        }
+
+        .stat .lab {
+            margin-top: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+        }
+
+        .legend {
+            margin-top: auto;
+            padding-top: 24px;
+        }
+
+        .legend h2 {
+            margin: 0 0 10px 0;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--muted);
+        }
+
+        .lg {
+            display: grid;
+            grid-template-columns: 52px 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 10.5px;
+            line-height: 1.35;
+            color: var(--muted);
+        }
+
+        .key.politics { font-size: 12px; font-weight: 800; color: var(--red); }
+        .key.hover { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--navy); }
+
+        #network-container {
+            min-width: 0;
+            min-height: 0;
+            height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #network-container svg {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+
+        #tooltip {
+            position: fixed;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.12s;
+            background: var(--ink);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        #tooltip b { display: block; font-weight: 700; }
+        #tooltip span { display: block; font-size: 11px; color: #ffd2ad; }
+
+        .poster-strip {
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: rgba(232, 112, 26, 0.17);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            border-left: 1px solid rgba(232, 112, 26, 0.28);
+            padding: 0 10px 16px 10px;
+            position: relative;
+            scrollbar-width: thin;
+        }
+
+        .strip-title {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(247, 226, 208, 0.78);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--navy);
+            padding: 20px 0 16px 0;
+        }
+
+        .poster-card {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 3px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            opacity: 0.8;
+            transition: opacity 0.2s, border 0.2s, transform 0.2s;
+        }
+
+        .poster-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .poster-card.highlighted {
+            opacity: 1;
+            border: 3px solid var(--red);
+            transform: scale(1.04);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .poster-card.dimmed { opacity: 0.1; }
+
+        @media (max-width: 1100px) {
+            #page { grid-template-columns: 280px minmax(0, 1fr) 120px; }
+            #info { padding: 32px 22px 20px 26px; }
+            .poster-card img { height: 80px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="page">
+        <aside id="info">
+            <h1>
+                Smithsonian
+                <em>Political Posters</em>
+            </h1>
+
+            <h2 id="subtitle">Politics and its related Smithsonian topics</h2>
+
+            <p class="description">
+                Every poster here is tagged Politics. The words around it are the
+                other topics those posters were filed under.
+            </p>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="num" id="stat-posters">–</div>
+                    <div class="lab">POSTERS</div>
+                </div>
+
+                <div class="stat">
+                    <div class="num" id="stat-topics">–</div>
+                    <div class="lab">RELATED TOPICS</div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <h2>HOW TO READ</h2>
+
+                <div class="lg">
+                    <div class="key politics">Politics</div>
+                    <div>Center topic. Every poster is tagged with it.</div>
+                </div>
+
+                <div class="lg">
+                    <div class="key hover">HOVER</div>
+                    <div>A topic to see its number of posters and light them up.</div>
+                </div>
+            </div>
+        </aside>
+
+        <div id="network-container"></div>
+
+        <div id="right-posters" class="poster-strip">
+            <div class="strip-title">ALL POSTERS</div>
+        </div>
+    </div>
+
+    <div id="tooltip"></div>
+
+</body>
+
+</html>
